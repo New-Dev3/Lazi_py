@@ -17,7 +17,7 @@ class ColoredFormatter(logging.Formatter):
     def __init__(self, *args, colors: Optional[Dict[str, str]] = None, **kwargs) -> None:
         super().__init__(*args, **kwargs)
 
-        self.colors = colors if colors else {}
+        self.colors = colors or {}
 
     def format(self, record) -> str:
         """Format the specified record as text."""

@@ -40,7 +40,7 @@ def get_bots():
     Returns:
         list[DeployedBot]: list of bots you have deployed.
     """
-    url = '{}/chatbots'.format(defaults.API_HOST)
+    url = f'{defaults.API_HOST}/chatbots'
     js = {'developer_uid': _get_developer_uid()}
     resp = requests.get(url, params=js, auth=_credentials())
     _check_response_for_error(resp)
@@ -54,7 +54,7 @@ def activate_bot(bot_uid: str):
     Args:
         bot_uid (str): the unique ID of the bot to make visibile
     """
-    url = '{}/chatbots/{}'.format(defaults.API_HOST, bot_uid)
+    url = f'{defaults.API_HOST}/chatbots/{bot_uid}'
     js = {'status': 'active'}
     resp = requests.post(url, json=js, auth=_credentials())
     _check_response_for_error(resp)
@@ -67,7 +67,7 @@ def deactivate_bot(bot_uid: str):
     Args:
         bot_uid (str): the unique ID of the bot to remove from visibility.
     """
-    url = '{}/chatbots/{}'.format(defaults.API_HOST, bot_uid)
+    url = f'{defaults.API_HOST}/chatbots/{bot_uid}'
     js = {'status': 'inactive'}
     resp = requests.post(url, json=js, auth=_credentials())
     _check_response_for_error(resp)
@@ -75,7 +75,7 @@ def deactivate_bot(bot_uid: str):
 
 def _check_response_for_error(resp):
     if resp.status_code != 200:
-        raise error.APIError('Bad response ({}): {}'.format(resp.status_code, resp.text))
+        raise error.APIError(f'Bad response ({resp.status_code}): {resp.text}')
 
 
 def _get_developer_uid():
@@ -88,10 +88,10 @@ def _credentials():
 
 
 def _parse_multiple_bots_response(resp):
-    bots = []
-    for raw_bot_response in resp.json()['data']:
-        bots.append(_parse_raw_bot_dict(raw_bot_response))
-    return bots
+    return [
+        _parse_raw_bot_dict(raw_bot_response)
+        for raw_bot_response in resp.json()['data']
+    ]
 
 
 def _parse_raw_bot_dict(data):

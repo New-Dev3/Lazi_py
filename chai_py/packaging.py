@@ -123,11 +123,7 @@ def package(metadata: Metadata, requirements: Optional[List[str]] = None, path: 
             write_valid_requirements_file(Path(temp_dir) / "requirements.txt", requirements)
 
         # Create zip
-        if path is None:
-            path = bot_file.parent / "_package.zip"
-        else:
-            path = Path(path)
-
+        path = bot_file.parent / "_package.zip" if path is None else Path(path)
         with path.open("wb") as f:
             zipfile_from_folder(temp_dir, f)
         print(f"Created zip package at {path}.")

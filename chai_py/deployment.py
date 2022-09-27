@@ -30,14 +30,12 @@ def upload_and_deploy(package: AnyStr, bot_uid: str = None) -> str:
             previous_bot_uid = f.read().strip()
         print("Detected previous deployment from this location. Use the same bot UID as before?")
         print(f" [y] (default) Yes. Update the bot ({previous_bot_uid}).")
-        print(f" [n] No. Deploy as a new bot.")
+        print(" [n] No. Deploy as a new bot.")
         input_key = input().lower()
-        if input_key == "y" or input_key == "":
+        if input_key in ["y", ""]:
             bot_uid = previous_bot_uid
             print(f"Using previous bot UID: {bot_uid}")
-        elif input_key == "n":
-            pass
-        else:
+        elif input_key != "n":
             raise RuntimeError("Unknown input.")
 
     auth = get_auth()
@@ -80,8 +78,7 @@ def parse_signed_url_for_bot_uid(url: str):
     """
     endpoint = url.split("?", maxsplit=1)[0]
     file_name = endpoint.split("/")[-1]
-    bot_uid = file_name.split(".")[0]
-    return bot_uid
+    return file_name.split(".")[0]
 
 
 def wait_for_deployment(bot_uid: str, sleep: float = 3):

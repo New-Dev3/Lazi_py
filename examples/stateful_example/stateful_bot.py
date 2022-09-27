@@ -12,7 +12,7 @@ class StatefulBot(ChaiBot):
         if update.latest_message.text == self.FIRST_MESSAGE_STRING:
             return "Enter text to see the letter count: " 
 
-        self.counter += Counter(c for c in update.latest_message.text)
+        self.counter += Counter(iter(update.latest_message.text))
 
         return self.counter.__str__()
 

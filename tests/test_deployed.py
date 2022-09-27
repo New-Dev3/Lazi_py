@@ -64,9 +64,9 @@ def test_activate_bot(post):
     dep.activate_bot('bot_123')
 
     post.assert_called_with(
-        '{}/chatbots/bot_123'.format(defaults.API_HOST),
+        f'{defaults.API_HOST}/chatbots/bot_123',
         json={'status': 'active'},
-        auth=mock.ANY
+        auth=mock.ANY,
     )
 
 
@@ -94,9 +94,9 @@ def test_deactivate_bot(post):
     dep.deactivate_bot('bot_123')
 
     post.assert_called_with(
-        '{}/chatbots/bot_123'.format(defaults.API_HOST),
+        f'{defaults.API_HOST}/chatbots/bot_123',
         json={'status': 'inactive'},
-        auth=mock.ANY
+        auth=mock.ANY,
     )
 
 
